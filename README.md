@@ -171,7 +171,7 @@ sudo systemctl restart networking
    ```xml
    <volume user="administrator" fstype="cifs" server="192.168.20.1" path="share" mountpoint="~/mnt/share" options="username=administrator,password=adminpassword,rw" />
    ```
-3. Перезапускаем службу:
+Перезапускаем службу:
    ```bash
    sudo systemctl restart fly-dm
    ```
