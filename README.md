@@ -104,12 +104,17 @@ sudo nmcli connection down "Проводное соединение 2" && sudo n
    ```ini
    log_directory = '/var/log/postgresql'
    ```
+<img width="389" alt="log_path" src="https://github.com/user-attachments/assets/5fed319c-96cf-4f4e-bb23-787a36c53947" />
+
 #### Создаем сертификаты:
    ```bash
    sudo openssl req -new -x509 -days 365 -nodes -text -out /etc/ssl/certs/server.crt -keyout /etc/ssl/private/server.key -subj "/CN=vm1"
    sudo chmod 600 /etc/ssl/private/server.key
    sudo chown postgres:postgres /etc/ssl/private/server.key /etc/ssl/certs/server.crt
    ```
+<img width="179" alt="ssl_cerf" src="https://github.com/user-attachments/assets/dc05f2a9-2e7d-4488-9928-bc211c6320e3" />
+
+
 #### Настройка PostgreSQL для использования сертификатов:
    ```bash
    sudo nano /etc/postgresql/15/main/postgresql.conf
