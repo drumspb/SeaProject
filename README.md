@@ -154,7 +154,7 @@ sudo nmcli connection down "Проводное соединение 2" && sudo n
    sudo apt install openssh-server libpam-mount fly-dm cifs-utils postgres-console -y
    ```
 
-#### Подключение к PostgreSQL с VM2
+#### Подключение к базе testbd:
 1. Создаем сертификаты:
    ```bash
    openssl req -new -x509 -days 365 -nodes -text -out admin.crt -keyout admin.key -subj "/CN=administrator"
