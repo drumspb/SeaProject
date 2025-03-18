@@ -182,7 +182,7 @@ sudo nmcli connection down "Проводное соединение 2" && sudo n
    ```
 
    ```xml
-   <volume user="administrator" fstype="cifs" server="192.168.20.1" path="share" mountpoint="~/mnt/share" options="username=administrator,password=adminpassword,rw" />
+   <volume user="administrator" fstype="cifs" server="192.168.20.2" path="share" mountpoint="~/mnt/share" options="username=administrator,password=adminpassword,rw" />
    ```
 3. Перезапускаем службу:
    ```bash
