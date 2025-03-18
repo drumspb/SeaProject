@@ -112,7 +112,6 @@ sudo nmcli connection down "Проводное соединение 2" && sudo n
    sudo chmod 600 /etc/ssl/private/server.key
    sudo chown postgres:postgres /etc/ssl/private/server.key /etc/ssl/certs/server.crt
    ```
-<img width="179" alt="ssl_cerf" src="https://github.com/user-attachments/assets/dc05f2a9-2e7d-4488-9928-bc211c6320e3" />
 
 
 #### Настройка PostgreSQL для использования сертификатов:
@@ -125,6 +124,8 @@ sudo nmcli connection down "Проводное соединение 2" && sudo n
    ssl_cert_file = '/etc/ssl/certs/server.crt'
    ssl_key_file = '/etc/ssl/private/server.key'
    ```
+<img width="179" alt="ssl_cerf" src="https://github.com/user-attachments/assets/dc05f2a9-2e7d-4488-9928-bc211c6320e3" />
+
 #### Настройка `pg_hba.conf`:
    ```bash
    sudo nano /etc/postgresql/15/main/pg_hba.conf
