@@ -49,28 +49,15 @@
 
 ### Настройка сети:
 
-```bash
-sudo nano /etc/network/interfaces
-```
 Astra1
-```ini
-auto enp0s3
-iface enp0s3 inet static
-    address 192.168.20.2
-    netmask 255.255.255.0
-```
-
-Astra2
-```ini
-auto enp0s3
-iface enp0s3 inet static
-    address 192.168.20.3
-    netmask 255.255.255.0
-```
-
-Переапуск сети:
 ```bash
-sudo systemctl restart networking
+sudo nmcli connection modify "Проводное соединение 2" ipv4.method manual ipv4.addresses 192.168.20.2/24 ipv4.gateway 192.168.20.1 ipv4.dns 8.8.8.8
+sudo nmcli connection down "Проводное соединение 2" && sudo nmcli connection up "Проводное соединение 2"
+```
+Astra2
+```bash
+sudo nmcli connection modify "Проводное соединение 2" ipv4.method manual ipv4.addresses 192.168.20.3/24 ipv4.gateway 192.168.20.1 ipv4.dns 8.8.8.8
+sudo nmcli connection down "Проводное соединение 2" && sudo nmcli connection up "Проводное соединение 2"
 ```
 
 ### Настройка Astra1
@@ -81,7 +68,7 @@ sudo systemctl restart networking
    sudo apt install openssh-server samba libpam-mount postgresql -y
    ```
 
-#### Создание общей папки:
+#### Создание общего каталога:
    ```bash
    sudo mkdir -p /srv/samba/share
    sudo chmod 777 /srv/samba/share
@@ -138,9 +125,8 @@ sudo systemctl restart networking
    sudo nano /etc/postgresql/15/main/pg_hba.conf
    ```
 
-   ```ini
-   hostssl all all 192.168.20.0/24 cert
-   ```
+<img width="454" alt="{396C4627-D2C6-4878-81C0-187935EF1CFC}" src="https://github.com/user-attachments/assets/c05a906b-fc84-440c-bffd-bb7da33d515f" />
+
 #### Создаем базу данных и пользователя:
    ```bash
    sudo -u postgres psql -c "CREATE DATABASE testdb;"
@@ -159,21 +145,7 @@ sudo systemctl restart networking
 #### Установка пакетов:
    ```bash
    sudo apt update
-   sudo apt install openssh-server libpam-mount fly-dm cifs-utils -y
-   ```
-
-
-#### Настройка `pam_mount`:
-   ```bash
-   sudo nano /etc/security/pam_mount.conf.xml
-   ```
-
-   ```xml
-   <volume user="administrator" fstype="cifs" server="192.168.20.1" path="share" mountpoint="~/mnt/share" options="username=administrator,password=adminpassword,rw" />
-   ```
-Перезапускаем службу:
-   ```bash
-   sudo systemctl restart fly-dm
+   sudo apt install openssh-server libpam-mount fly-dm cifs-utils postgres-console -y
    ```
 
 #### Подключение к PostgreSQL с VM2
@@ -190,11 +162,15 @@ sudo systemctl restart networking
    ```bash
    psql "host=192.168.20.2 dbname=testdb user=administrator sslmode=require sslcert=admin.crt sslkey=admin.key"
    ```
-
----
-
-#### Настройка автоматического монтирования:
-Редактируем `pam_mount`:
+   
+   <img width="410" alt="{94FBB6C9-BF8B-49FF-8196-ED6E18444018}" src="https://github.com/user-attachments/assets/f7abea77-a213-4307-893f-9daffad75ab8" />
+   
+#### Настройка `pam_mount` для автоматического монирования:
+1. Cоздаем каталог:
+   ```bash
+   mkdir -p /mnt/share
+   ```
+2. Изменяем конфигурацию pam_mount:
    ```bash
    sudo nano /etc/security/pam_mount.conf.xml
    ```
@@ -202,10 +178,12 @@ sudo systemctl restart networking
    ```xml
    <volume user="administrator" fstype="cifs" server="192.168.20.1" path="share" mountpoint="~/mnt/share" options="username=administrator,password=adminpassword,rw" />
    ```
-
+3. Перезапускаем службу:
    ```bash
    sudo systemctl restart fly-dm
    ```
+   <img width="357" alt="{26996688-F169-40EC-9D5B-DEF7D20A75BC}" src="https://github.com/user-attachments/assets/eb01f933-b56e-4aee-b8f0-f70a9d6a149e" />
+   <img width="328" alt="{D4C4FE64-2DB2-4530-B548-85FEC3B622D0}" src="https://github.com/user-attachments/assets/f6071bcb-c14c-47b2-9345-7b6b723d3687" />
 
 ---
 
